@@ -1,0 +1,6 @@
+<?php
+require_once __DIR__.'/../config/config.php'; admin_required();
+if($_SERVER['REQUEST_METHOD']==='POST'){csrf_check($_POST['csrf']??null);db()->prepare("UPDATE orders SET status=? WHERE id=?")->execute([$_POST['status'],(int)$_POST['id']]);}
+$orders=db()->query("SELECT * FROM orders ORDER BY created_at DESC")->fetchAll();$title='Orders';require __DIR__.'/admin_header.php';?>
+<div class="section-head"><h1>Orders</h1></div><div class="admin-panel"><table><tr><th>Order</th><th>Customer</th><th>Payment</th><th>Total</th><th>Status</th><th>Update</th></tr><?php foreach($orders as $o):?><tr><td><?=e($o['order_number'])?></td><td><?=e($o['customer_name'])?><br><small><?=e($o['email'])?></small></td><td><?=e($o['payment_method'])?></td><td><?=money((float)$o['total'])?></td><td><?=e($o['status'])?></td><td><form method="post" class="inline"><input type="hidden" name="csrf" value="<?=e(csrf_token())?>"><input type="hidden" name="id" value="<?=$o['id']?>"><select name="status"><?php foreach(['pending','paid','processing','shipped','delivered','cancelled','refunded'] as $s):?><option <?=$s===$o['status']?'selected':''?>><?=$s?></option><?php endforeach;?></select><button>Save</button></form></td></tr><?php endforeach;?></table></div>
+<?php require __DIR__.'/../includes/footer.php'; ?>

@@ -1,0 +1,3 @@
+<?php require_once __DIR__.'/../config/config.php'; admin_required(); ?>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title><?=e($title??'Admin')?></title><link rel="stylesheet" href="<?=e(BASE_URL)?>/assets/css/style.css"></head><body class="admin-body">
+<header class="site-header"><a class="brand" href="dashboard.php">NOIRTHREAD / ADMIN</a><nav><a href="dashboard.php">Dashboard</a><a href="products.php">Products</a><a href="csv-import.php">CSV Import</a><a href="orders.php">Orders</a><a href="logout.php">Logout</a></nav></header><main class="admin-main">
